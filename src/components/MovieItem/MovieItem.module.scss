@@ -1,0 +1,44 @@
+.movieBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.moviePosterImg {
+    width: 100%;
+    height: 30rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.movieInfo {
+    width: 100%;
+    padding: 1rem;
+    background-color: cornflowerblue;
+    overflow: hidden;
+}
+
+.movieImg {
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (min-width: 700px) {
+    .movieBox {
+        flex-direction: row;
+        width: auto;
+        height: 25rem;
+        margin: .5rem;
+    }
+
+    .movieImg {
+        width: auto;
+        height: 100%;
+    }
+
+    .movieInfo {
+        width: 20rem;
+    }
+}
