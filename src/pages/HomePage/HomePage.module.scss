@@ -1,5 +1,5 @@
 .mainContainer {
-    padding: 0 1rem;
+    //padding: 0 1rem;
 }
 
 .moviesContainer {
@@ -7,4 +7,30 @@
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+    padding: 0 1rem;
+}
+
+
+.sliderContainer{
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
+    //width: 90%;
+    //height: 30rem;
+    //width: 140%;
+    //margin: 5rem 0;
+    //margin-left: -20%;
+}
+.sliderImg{
+    padding: 0 .5rem;
+    display: block;
+    margin: auto;
+}
+
+@media screen and (max-width:25em) {
+    .sliderContainer{
+        //width: 100%;
+        margin: 0;
+        margin-left: -20%;
+    }
 }
