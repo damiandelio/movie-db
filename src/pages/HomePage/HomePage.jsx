@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MovieItem from '../../components/MovieItem/MovieItem'
 import styles from './HomePage.module.scss'
 import axios from "axios";
+import { Link } from 'react-router-dom'
 import { GET_DISCOVER_MOVIES_CFG } from '../../apiCalls'
 import InfiniteScroll from 'react-infinite-scroller';
 import Slider from "react-slick";
@@ -30,17 +31,17 @@ const HomePage = () => {
     const loadFunc = (page) => {
         console.log('page: ' + page)
         axios(GET_DISCOVER_MOVIES_CFG(page))
-            .then(function (response) {
-                setMovies([...movies, ...response.data.results]);
+            .then(function (res) {
+                setMovies([...movies, ...res.data.results]);
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function (err) {
+                console.log(err);
             });
     }
 
     const settings = {
         infinite: true,
-        slidesToShow: isMobile? 1:3,
+        slidesToShow: isMobile ? 1 : 3,
         //slidesToScroll: isMobile? 1:3,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -59,7 +60,7 @@ const HomePage = () => {
             <main className={styles.mainContainer}>
                 <div className={styles.sliderContainer}>
                     <Slider {...settings} className={styles.slider}>
-                        {movies.slice(0,10).map((movie) => (
+                        {movies.slice(0, 10).map((movie) => (
                             <img className={styles.sliderImg} src={CONSTANTS.URL_IMG_BASE + movie.poster_path} alt={movie.title} />
                         ))}
                     </Slider>
@@ -73,7 +74,11 @@ const HomePage = () => {
                 >
                     <ul className={styles.moviesContainer}>
                         {movies.map((movie) => (
-                            <MovieItem movie={movie} key={movie.id} />
+                            <Link to={{
+                                pathname: `/movie/${movie.id}`
+                            }}>
+                                <MovieItem movie={movie} key={movie.id} />
+                            </Link>
                         ))}
                     </ul>
                 </InfiniteScroll>
