@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import CONSTANTS from '../../constants'
-import { GET_MOVIE_CFG } from '../../apiCalls'
-import axios from 'axios'
+import { GET_MOVIE_CFG, spinnerAxios } from '../../apiCalls'
 import { useHistory } from "react-router-dom";
-// components
-import Spinner from '../../components/Spinner/Spinner'
+import { useDispatch } from 'react-redux'
 
 
 const MoviePage = ({ match }) => {
    const [movie, setMovie] = useState({})
-
    const history = useHistory();
+   const dispatch = useDispatch()
 
    useEffect(() => {
-      axios(GET_MOVIE_CFG(match.params.movieid))
-         .then((res) => {
+      spinnerAxios(GET_MOVIE_CFG(match.params.movieid),
+         (res) => {
             setMovie(res.data)
-         })
-         .catch((err) => {
+         },
+         (err) => {
             history.replace('/invalid-movie')
-         })
-   }, [match.params.movieid, movie, history]);
+         },
+         dispatch
+      )
+   }, [match, history]);
 
    return (
       <main>
-         {movie.title ?
+         {movie.title &&
             <div>
                <h1>{movie.title}</h1>
                <div>Release: {movie.release_date}</div>
@@ -33,8 +33,6 @@ const MoviePage = ({ match }) => {
                <img src={CONSTANTS.URL_IMG_BASE + movie.poster_path} alt={movie.title} />
                <p>{movie.overview}</p>
             </div>
-            :
-            <Spinner />
          }
       </main>
    )

@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import MovieItem from '../../components/MovieItem/MovieItem'
 import styles from './HomePage.module.scss'
-import axios from "axios";
 import { Link } from 'react-router-dom'
-import { GET_DISCOVER_MOVIES_CFG } from '../../apiCalls'
+import { GET_DISCOVER_MOVIES_CFG, spinnerAxios } from '../../apiCalls'
 import InfiniteScroll from 'react-infinite-scroller';
 import Slider from "react-slick";
 import CONSTANTS from '../../constants'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useDispatch } from 'react-redux'
 
 const HomePage = () => {
 
     const [movies, setMovies] = useState([]);
     const [isMobile, setIsmobile] = useState(true)
     //let isMobile = true;
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const logg = () => {
@@ -30,13 +31,16 @@ const HomePage = () => {
 
     const loadFunc = (page) => {
         console.log('page: ' + page)
-        axios(GET_DISCOVER_MOVIES_CFG(page))
-            .then(function (res) {
-                setMovies([...movies, ...res.data.results]);
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
+        spinnerAxios(GET_DISCOVER_MOVIES_CFG(page),
+         (res) => {
+            setMovies([...movies, ...res.data.results]);
+         },
+         (err) => {
+            console.log(err);
+         },
+         dispatch
+      )
+
     }
 
     const settings = {

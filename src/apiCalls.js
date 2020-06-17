@@ -1,7 +1,24 @@
+import { showSpinner, hideSpinner } from './redux/redux_all'
+import axios from 'axios'
+
 const URL_BASE = 'https://api.themoviedb.org/3'
 const APY_KEY = 'a7a0795aaec83387554c7a0f2c80c09a'
 const URL_DISCOVER_MOVIES = URL_BASE + '/discover/movie'
 const URL_MOVIE = URL_BASE + '/movie'
+
+export const spinnerAxios = (cfg, onSuccess, onFail, dispatch) => {
+
+  dispatch(showSpinner())
+  axios(cfg)
+     .then((res) => {
+        dispatch(hideSpinner())
+        onSuccess(res)
+     })
+     .catch((err) => {
+        dispatch(hideSpinner())
+        onFail(err)
+     })
+}
 
 export function GET_DISCOVER_MOVIES_CFG(targetPage) {
   return {
